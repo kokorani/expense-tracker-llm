@@ -4,6 +4,7 @@ Most expense trackers make you fill out forms. This one lets you just tell it wh
 
 An AI-powered personal expense tracker built with Streamlit, OpenAI function calling, and MySQL. Use natural language to add, find, update, delete, and summarize expenses.
 
+<img width="1451" height="746" alt="Image" src="https://github.com/user-attachments/assets/9fa920a3-563b-4616-81c6-a963339ce59b" />
 
 ## Features
 
