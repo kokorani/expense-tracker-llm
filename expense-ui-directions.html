@@ -1,0 +1,90 @@
+<div id="expense-ui-directions" aria-label="Expense tracker interface directions">
+  <style>
+    #expense-ui-directions { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: light-dark(#18211e,#edf6f1); }
+    #expense-ui-directions * { box-sizing: border-box; }
+    #expense-ui-directions .directions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+    #expense-ui-directions .direction { --accent:#176b4d; position:relative; overflow:hidden; min-width:0; border:1px solid light-dark(#dce5df,#33443d); border-radius:18px; background:light-dark(#fff,#17201c); box-shadow:0 2px 8px #101a1420; cursor:pointer; transition:transform .15s, box-shadow .15s, border-color .15s; }
+    #expense-ui-directions .direction:hover { transform:translateY(-2px); box-shadow:0 8px 22px #101a1424; }
+    #expense-ui-directions .direction.selected { border:2px solid var(--accent); box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent); }
+    #expense-ui-directions .label { display:flex; align-items:center; justify-content:space-between; padding:14px 15px 11px; border-bottom:1px solid light-dark(#edf1ee,#26332d); font-size:13px; font-weight:750; }
+    #expense-ui-directions .choice { display:none; padding:3px 7px; border-radius:99px; background:var(--accent); color:#fff; font-size:10px; }
+    #expense-ui-directions .selected .choice { display:block; }
+    #expense-ui-directions .frame { min-height:412px; padding:12px; background:light-dark(#f6f8f6,#111815); }
+    #expense-ui-directions .app { min-height:388px; overflow:hidden; border-radius:11px; background:light-dark(#fff,#1b2520); color:light-dark(#18211e,#edf6f1); box-shadow:inset 0 0 0 1px light-dark(#e6ece8,#304039); font-size:9px; }
+    #expense-ui-directions .nav { display:flex; align-items:center; gap:8px; height:37px; padding:0 11px; border-bottom:1px solid light-dark(#edf0ee,#2c3933); font-size:8px; color:light-dark(#65736b,#aab9b1); }
+    #expense-ui-directions .brand { margin-right:auto; color:light-dark(#183b2d,#c7efdc); font-weight:800; font-size:11px; }
+    #expense-ui-directions .nav .active { color:var(--accent); font-weight:750; }
+    #expense-ui-directions .profile { width:17px; height:17px; border-radius:50%; background:#d6e6dc; }
+    #expense-ui-directions .body { padding:13px; }
+    #expense-ui-directions h3 { margin:0; font-size:15px; letter-spacing:-.03em; }
+    #expense-ui-directions .sub { margin:3px 0 12px; color:light-dark(#718078,#9caaa3); font-size:8px; }
+    #expense-ui-directions .metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+    #expense-ui-directions .metric { padding:8px; border:1px solid light-dark(#e7ece8,#304039); border-radius:8px; }
+    #expense-ui-directions .metric span { display:block; color:light-dark(#718078,#9caaa3); font-size:7px; }
+    #expense-ui-directions .metric strong { display:block; margin-top:3px; font-size:12px; letter-spacing:-.04em; }
+    #expense-ui-directions .metric b { font-size:7px; color:#22845e; font-weight:700; }
+    #expense-ui-directions .split { display:grid; grid-template-columns:1.15fr .85fr; gap:8px; margin-top:9px; }
+    #expense-ui-directions .panel { padding:9px; border:1px solid light-dark(#e7ece8,#304039); border-radius:8px; }
+    #expense-ui-directions .panel-title { display:flex; justify-content:space-between; margin-bottom:7px; font-size:8px; font-weight:750; }
+    #expense-ui-directions .muted { color:light-dark(#718078,#9caaa3); font-weight:500; }
+    #expense-ui-directions .bars { height:75px; display:flex; gap:7px; align-items:flex-end; padding:2px 2px 0; border-bottom:1px solid light-dark(#e6ece8,#3a4942); }
+    #expense-ui-directions .bar { flex:1; background:color-mix(in srgb,var(--accent) 75%,#fff); border-radius:3px 3px 0 0; }
+    #expense-ui-directions .donut { width:58px; height:58px; margin:2px auto 5px; border-radius:50%; background:conic-gradient(var(--accent) 0 39%, #e8b24e 39% 63%, #60aeb2 63% 82%, #dde5df 82%); position:relative; }
+    #expense-ui-directions .donut:after { content:"₹15.3k"; display:grid; place-items:center; position:absolute; inset:13px; border-radius:50%; background:light-dark(#fff,#1b2520); font-size:8px; font-weight:800; }
+    #expense-ui-directions .row { display:flex; align-items:center; gap:6px; padding:6px 0; border-bottom:1px solid light-dark(#f0f3f1,#29362f); }
+    #expense-ui-directions .row:last-child { border:0; }
+    #expense-ui-directions .dot { width:17px; height:17px; display:grid; place-items:center; border-radius:5px; background:light-dark(#ebf3ee,#2a3a32); font-size:9px; }
+    #expense-ui-directions .row strong { font-size:8px; } #expense-ui-directions .row small { display:block; color:light-dark(#718078,#9caaa3); font-size:7px; } #expense-ui-directions .amt { margin-left:auto; font-size:8px; font-weight:750; }
+    #expense-ui-directions .quick { display:flex; min-height:388px; }
+    #expense-ui-directions .capture { width:54%; padding:17px; border-right:1px solid light-dark(#e7ece8,#304039); }
+    #expense-ui-directions .history { width:46%; padding:16px 12px; background:light-dark(#f9fbf9,#18221d); }
+    #expense-ui-directions .amount { margin:19px 0 15px; padding-bottom:8px; border-bottom:2px solid var(--accent); color:light-dark(#18211e,#edf6f1); font-size:27px; font-weight:750; letter-spacing:-.06em; }
+    #expense-ui-directions .field-label { margin:11px 0 4px; color:light-dark(#627168,#a4b2aa); font-size:7px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; }
+    #expense-ui-directions .input, #expense-ui-directions .chips { padding:7px; border:1px solid light-dark(#dce5df,#3a4a42); border-radius:6px; color:light-dark(#64736b,#b4c3bb); font-size:8px; }
+    #expense-ui-directions .chips { display:flex; gap:4px; border:0; padding:0; }
+    #expense-ui-directions .chip { padding:5px 6px; border-radius:5px; background:light-dark(#edf3ef,#2a3a32); }
+    #expense-ui-directions .chip.active { background:var(--accent); color:#fff; }
+    #expense-ui-directions .save { width:100%; margin-top:18px; padding:8px; border:0; border-radius:6px; background:var(--accent); color:#fff; font-size:8px; font-weight:750; }
+    #expense-ui-directions .assistant { display:grid; grid-template-rows:auto 1fr auto; min-height:388px; }
+    #expense-ui-directions .assistant-head { padding:13px 14px 10px; border-bottom:1px solid light-dark(#e7ece8,#304039); }
+    #expense-ui-directions .assistant-head h3 { font-size:13px; }
+    #expense-ui-directions .chat { padding:12px 14px; background:light-dark(#f9fbf9,#18221d); }
+    #expense-ui-directions .bubble { max-width:85%; margin:0 0 9px; padding:7px 8px; border-radius:8px 8px 8px 2px; background:light-dark(#eaf2ed,#2b3a33); line-height:1.45; font-size:8px; }
+    #expense-ui-directions .bubble.user { margin-left:auto; border-radius:8px 8px 2px; background:var(--accent); color:#fff; }
+    #expense-ui-directions .assistant-input { display:flex; gap:6px; padding:10px 12px; border-top:1px solid light-dark(#e7ece8,#304039); }
+    #expense-ui-directions .ask { flex:1; padding:7px 8px; border:1px solid light-dark(#dce5df,#3a4a42); border-radius:6px; color:light-dark(#839088,#adbcb4); font-size:8px; }
+    #expense-ui-directions .send { padding:0 9px; border:0; border-radius:6px; background:var(--accent); color:#fff; font-size:9px; }
+    #expense-ui-directions .caption { padding:0 15px 14px; color:light-dark(#617068,#abb9b1); font-size:11px; line-height:1.4; }
+    #expense-ui-directions .caption strong { color:light-dark(#22352c,#e1eee7); }
+    @media (max-width:760px) { #expense-ui-directions .directions { grid-template-columns:1fr; } }
+  </style>
+  <div class="directions">
+    <article class="direction selected" data-choice="1" tabindex="0" role="button" aria-label="Choose dashboard-first layout">
+      <div class="label"><span>01 · Dashboard-first</span><span class="choice">SELECTED</span></div>
+      <div class="frame"><div class="app"><div class="nav"><span class="brand">pennywise</span><span class="active">Overview</span><span>Expenses</span><span>Insights</span><i class="profile"></i></div><div class="body"><h3>Good afternoon, Ananya</h3><p class="sub">Your spending, at a glance</p><div class="metrics"><div class="metric"><span>This month</span><strong>₹15,300</strong><b>↓ 12% vs Aug</b></div><div class="metric"><span>Transactions</span><strong>42</strong><b>+ 6 this week</b></div><div class="metric"><span>Top category</span><strong>Food</strong><b>₹5,940 spent</b></div></div><div class="split"><div class="panel"><div class="panel-title">Monthly spend <span class="muted">Last 6 months</span></div><div class="bars"><i class="bar" style="height:31%"></i><i class="bar" style="height:55%"></i><i class="bar" style="height:43%"></i><i class="bar" style="height:80%"></i><i class="bar" style="height:61%"></i><i class="bar" style="height:70%"></i></div></div><div class="panel"><div class="panel-title">By category</div><div class="donut"></div><div class="muted" style="text-align:center;font-size:7px">Food · Groceries · Travel</div></div></div><div class="panel" style="margin-top:9px"><div class="panel-title">Recent expenses <span style="color:var(--accent)">View all</span></div><div class="row"><i class="dot">☕</i><span><strong>Coffee shop</strong><small>Food · Today</small></span><span class="amt">−₹240</span></div><div class="row"><i class="dot">⌂</i><span><strong>September rent</strong><small>Rent · Sep 1</small></span><span class="amt">−₹8,000</span></div></div></div></div></div>
+      <div class="caption"><strong>Best for:</strong> understanding spend patterns. The clearest home screen for your monthly and category summaries.</div>
+    </article>
+    <article class="direction" data-choice="2" tabindex="0" role="button" aria-label="Choose quick-entry layout">
+      <div class="label"><span>02 · Quick-entry</span><span class="choice">SELECTED</span></div>
+      <div class="frame"><div class="app"><div class="quick"><section class="capture"><span class="brand">pennywise</span><h3 style="margin-top:20px">Add an expense</h3><p class="sub">Keep the everyday flow friction-free.</p><div class="amount">₹ 0.00</div><div class="field-label">Category</div><div class="chips"><span class="chip active">Food</span><span class="chip">Travel</span><span class="chip">Bills</span></div><div class="field-label">Description</div><div class="input">e.g. Lunch with team</div><div class="field-label">Date</div><div class="input">16 Sep 2026</div><button class="save">Save expense</button></section><section class="history"><div class="panel-title">Today <span class="muted">₹1,120</span></div><div class="row"><i class="dot">🍜</i><span><strong>Lunch</strong><small>Food · 1:10 PM</small></span><span class="amt">₹340</span></div><div class="row"><i class="dot">🚕</i><span><strong>Uber</strong><small>Travel · 9:05 AM</small></span><span class="amt">₹280</span></div><div class="row"><i class="dot">☕</i><span><strong>Coffee</strong><small>Food · 8:22 AM</small></span><span class="amt">₹120</span></div><div class="panel-title" style="margin-top:20px">This week</div><div class="metric"><span>Total spent</span><strong>₹4,860</strong><b>16 transactions</b></div></section></div></div></div>
+      <div class="caption"><strong>Best for:</strong> entering expenses fast. It favors one clear action, with today’s activity beside it.</div>
+    </article>
+    <article class="direction" data-choice="3" tabindex="0" role="button" aria-label="Choose AI assistant layout">
+      <div class="label"><span>03 · Assistant-first</span><span class="choice">SELECTED</span></div>
+      <div class="frame"><div class="app"><div class="assistant"><div class="assistant-head"><span class="brand">pennywise</span><h3 style="margin-top:12px">Your expense assistant</h3><p class="sub" style="margin-bottom:0">Add, update, search, or summarize spending in plain language.</p></div><div class="chat"><div class="bubble user">I spent ₹340 on lunch today</div><div class="bubble">Added ₹340 to <b>Food</b> for 16 Sep. Want to add a note?</div><div class="bubble user">What did I spend most on this month?</div><div class="bubble">Food is your top category at <b>₹5,940</b>, followed by Rent at ₹8,000.</div></div><div class="assistant-input"><div class="ask">Ask about an expense…</div><button class="send">↑</button></div></div></div></div>
+      <div class="caption"><strong>Best for:</strong> showcasing the OpenAI-powered workflow you already built, with natural-language actions as the main interface.</div>
+    </article>
+  </div>
+  <script>
+    (() => {
+      const root = document.getElementById('expense-ui-directions');
+      const options = [...root.querySelectorAll('.direction')];
+      const state = { accent: '#176b4d', radius: 18 };
+      function choose(option) { options.forEach(item => item.classList.toggle('selected', item === option)); }
+      function render() { options.forEach(item => { item.style.setProperty('--accent', state.accent); item.style.borderRadius = `${state.radius}px`; }); }
+      options.forEach(option => { option.addEventListener('click', () => choose(option)); option.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); choose(option); } }); });
+      render();
+      if (globalThis.Tweak) { const tweak = new Tweak({ container: root, onChange: render }); tweak.addColorPicker(state, 'accent', { label: 'Accent color', reference: '--accent' }); tweak.addSlider(state, 'radius', { label: 'Corner radius', min: 6, max: 28, unit: 'px' }); }
+    })();
+  </script>
+</div>
