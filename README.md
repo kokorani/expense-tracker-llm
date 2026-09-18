@@ -6,8 +6,6 @@ An AI-powered personal expense tracker built with Streamlit, OpenAI function cal
 
 <img width="1451" height="746" alt="Image" src="https://github.com/user-attachments/assets/9fa920a3-563b-4616-81c6-a963339ce59b" />
 
-<img width="1464" height="911" alt="Image" src="https://github.com/user-attachments/assets/9a141992-fa75-4087-8f97-e6d3fdc1325b" />
-
 ## Features
 
 - Chat-first expense management
